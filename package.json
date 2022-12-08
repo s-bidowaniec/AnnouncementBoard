@@ -1,5 +1,23 @@
 {
+  "name": "announcement_board",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha \"./{,!(node_modules|client)/**/}*.test.js\"",
+    "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test",
+    "start": "nodemon server.js",
+    "build": "cd client && yarn install && yarn build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "mongo-sanitize": "^1.1.0",
+    "mongoose": "^6.7.5",
+    "nodemon": "^2.0.20"
   }
 }
