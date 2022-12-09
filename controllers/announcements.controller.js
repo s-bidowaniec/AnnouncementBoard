@@ -18,6 +18,15 @@ exports.getById = async (req, res) => {
     }
 }
 
+exports.search = async (req, res) => {
+    const re = new RegExp(req.params.searchPhrase,"i");
+    try {
+        res.json(await Announcement.find({$or: [{title: { $regex: re}}, {content: { $regex: re}}]}));
+    } catch (err) {
+        res.status(500).json({"message": err})
+    }
+}
+
 // POST
 exports.create = async (req, res) => {
     try {
