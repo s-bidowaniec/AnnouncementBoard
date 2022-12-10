@@ -4,11 +4,8 @@ const path = require('path')
 const mongoose = require('mongoose')
 const sanitize = require('mongo-sanitize');
 const helmet = require('helmet');
-
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 // Connect DB
 const NODE_ENV = process.env.NODE_ENV;
@@ -20,6 +17,12 @@ else dbUri = 'mongodb://localhost:27017/AnnouncementBoardDB';
 
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(session({secret:"xyz567", store: MongoStore.create({ mongoUrl: dbUri }), resave: false, saveUninitialized: false }));
+app.use(cors());
 
 db.once('open', ()=>{
     console.log('Connected to the database')
