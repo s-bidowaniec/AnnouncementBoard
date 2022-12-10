@@ -4,7 +4,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const sanitize = require('mongo-sanitize');
 const helmet = require('helmet');
-const announcementsRoutes = require('./routes/announcements.routes')
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,7 +39,8 @@ app.use((req, res, next) => {
 app.use(helmet());
 
 // use routes
-app.use('/api', announcementsRoutes);
+app.use('/api', require('./routes/announcements.routes'));
+app.use('/auth', require('./routes/auth.routes'));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
