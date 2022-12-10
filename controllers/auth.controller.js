@@ -43,9 +43,5 @@ exports.login = async(req, res) => {
 }
 
 exports.getUser = async(req, res) => {
-    if(req.session.login) {
-        res.send({login: req.session.login})
-    } else {
-        res.send({login: "not logged"})
-    }
+    res.send({login: req.session.login})
 }
