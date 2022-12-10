@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo');
 
 // Connect DB
 const NODE_ENV = process.env.NODE_ENV;
+console.log(NODE_ENV);
 let dbUri = '';
 
 if(NODE_ENV === 'production') dbUri = `mongodb+srv://${process.env.dbname}:${process.env.dbpass}@cluster0.f63nfzn.mongodb.net/?retryWrites=true&w=majority`;
@@ -21,8 +22,22 @@ const db = mongoose.connection;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(session({secret:"xyz567", store: MongoStore.create({ mongoUrl: dbUri }), resave: false, saveUninitialized: false }));
-app.use(cors());
+app.use(session({
+    secret: process.env.secretSession,
+    store: MongoStore.create({ mongoUrl: dbUri }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {secure: process.env.NODE_ENV === 'production'}
+}));
+
+if(process.env.NODE_ENV !== 'production') {
+    app.use(
+        cors({
+            origin: ['http://localhost:3000'],
+            credentials: true,
+        })
+    );
+}
 
 db.once('open', ()=>{
     console.log('Connected to the database')
