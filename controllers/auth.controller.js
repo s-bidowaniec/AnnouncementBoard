@@ -1,20 +1,26 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs')
+const fs = require('fs');
+const getImageFileType = require('../utils/getImageFileType')
 exports.register = async(req, res) => {
     try{
-        const {login, password, avatar, phoneNumber} = req.body;
-        console.log(req.body);
-        if (login && typeof login === 'string' && password && typeof password === 'string'){
+        const {login, password, phoneNumber} = req.body;
+        const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+        if (login && typeof login === 'string' && password && typeof password === 'string' && req.file && ['image/png', 'image/gif', 'image/jpeg'].includes(fileType)){
             const userWithLogin = await User.findOne({login});
             if (userWithLogin){
-                return res.status(409).send({message: "User with this login already exists"});
+                if(req.file){fs.unlinkSync(req.file.path)};
+                console.log(req.file)
+                return res.status(409).send({message: "Bad request"});
             }
-            const user = await User.create({login, password: await bcrypt.hash(password, 10), avatar, phoneNumber});
+            const user = await User.create({login, password: await bcrypt.hash(password, 10), avatar: req.file.path, phoneNumber});
             res.status(201).send({message: "User created" + user.login});
         } else {
+            if(req.file){fs.unlinkSync(req.file.path)};
             res.status(400).send({message: "Bad request"})
         }
     } catch (err){
+        if(req.file){fs.unlinkSync(req.file.path)};
         res.status(500).send({message: err.message});
     }
 }

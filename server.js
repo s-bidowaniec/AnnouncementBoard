@@ -63,6 +63,9 @@ app.use('/auth', require('./routes/auth.routes'));
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
 
+// Serve public images
+app.use(express.static(path.join(__dirname, '/public')));
+
 // Serve main react app
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build/index.html'));
