@@ -77,4 +77,4 @@ app.use((req, res) => {
 })
 
 // export
-module.exports = server;
+module.exports = app;

@@ -1,4 +1,4 @@
-const server = require('../../../server');
+const app = require('../../../server');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const Announcement = require('../../../models/announcement.model')
@@ -30,19 +30,19 @@ describe('GET /api/announcements', () => {
         await Announcement.deleteMany();
     });
     it('should return all Announcements', async () => {
-        const res = await request(server).get('/api/ads');
+        const res = await request(app).get('/api/ads');
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.be.equal(4);
     });
     it('should find two Announcements by title', async () => {
-        const res = await request(server).get('/api/ads/search/xyz');
+        const res = await request(app).get('/api/ads/search/xyz');
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.be.equal(2);
     });
     it('should find two Announcements by title and content', async () => {
-        const res = await request(server).get('/api/ads/search/content');
+        const res = await request(app).get('/api/ads/search/content');
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.be.equal(2);
