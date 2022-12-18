@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Home from './components/pages/Home/Home';
 import Ad from './components/pages/Ad/Ad';
@@ -12,7 +14,12 @@ import Login from './components/pages/Login/Login';
 import Register from './components/pages/Register/Register';
 import Logout from './components/pages/Logout/Logout';
 import NotFound from './components/pages/NotFound/NotFound';
+import { fetchUser } from './redux/usersRedux';
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => dispatch(fetchUser()), [dispatch]);
   return (
     <main>
       <Container>
