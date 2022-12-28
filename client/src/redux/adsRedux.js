@@ -1,6 +1,7 @@
 import { API_URL } from '../config';
 // selectors
 export const getAllAds = ({ ads }) => ads;
+export const getAdById = ({ ads }, id) => ads.find((ad) => ad._id === id);
 // actions
 const createActionName = (actionName) => `app/ads/${actionName}`;
 const UPDATE_ADS = createActionName('UPDATE_ADS');
@@ -8,10 +9,19 @@ const UPDATE_ADS = createActionName('UPDATE_ADS');
 export const updateAds = (payload) => ({ type: UPDATE_ADS, payload });
 // thunk actions
 export const fetchAds = () => {
+  console.log(API_URL);
   return (dispatch) => {
     fetch(`${API_URL}/api/ads`)
       .then((res) => res.json())
-      .then((tables) => dispatch(updateAds([...tables])));
+      .then((ads) => dispatch(updateAds([...ads])));
+  };
+};
+export const fetchSearchAds = (search) => {
+  console.log(API_URL);
+  return (dispatch) => {
+    fetch(`${API_URL}/api/ads/search/${search}`)
+      .then((res) => res.json())
+      .then((ads) => dispatch(updateAds([...ads])));
   };
 };
 //reducer

@@ -1,18 +1,24 @@
 import { Alert, Button, Form, Spinner } from 'react-bootstrap';
 import { useState } from 'react';
 import { API_URL } from '../../../config';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../../redux/usersRedux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser, logIn } from '../../../redux/usersRedux';
 const Login = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => getUser(state));
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const [status, setStatus] = useState(null); // null, 'loading', 'success', 'serverError', 'clientError'
+  const [status, setStatus] = useState(null); // null, 'loading', 'success', 'serverError', 'clientError', 'loggedIn'
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (user) {
+      setStatus('loggedIn');
+      return console.log('Already logged in!');
+    }
     console.log('submit');
     const options = {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ login, password })
     };
@@ -32,6 +38,12 @@ const Login = () => {
   return (
     <Form className="col-12 col-sm-3 mx-auto" onSubmit={handleSubmit}>
       <h1 className="my-4">Sign in</h1>
+      {status === 'loggedIn' && (
+        <Alert variant="danger">
+          <Alert.Heading>Already logged in.</Alert.Heading>
+          <p>Log out first.</p>
+        </Alert>
+      )}
       {status === 'success' && (
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>

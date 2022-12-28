@@ -18,8 +18,7 @@ import { fetchUser } from './redux/usersRedux';
 
 function App() {
   const dispatch = useDispatch();
-
-  useEffect(() => dispatch(fetchUser()), [dispatch]);
+  useEffect(() => dispatch(fetchUser), [dispatch]);
   return (
     <main>
       <Container>

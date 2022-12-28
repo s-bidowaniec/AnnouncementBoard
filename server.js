@@ -6,6 +6,7 @@ const sanitize = require('mongo-sanitize');
 const helmet = require('helmet');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+//require('dotenv').config();
 
 // Connect DB
 const NODE_ENV = process.env.NODE_ENV;
@@ -20,8 +21,20 @@ mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 const app = express();
+/*app.use((req, res, next) => {
+   res.header('Access-Control-Allow-Origin', '*');
+   next();
+ });*/
+app.use(
+  cors({
+      origin: ['http://localhost:3000', 'http://localhost:8000'],
+      credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.set('trust proxy', 1);
+
 app.use(session({
     secret: process.env.secretSession,
     store: MongoStore.create({ mongoUrl: dbUri }),
@@ -30,23 +43,10 @@ app.use(session({
     cookie: {secure: process.env.NODE_ENV === 'production'}
 }));
 
-if(process.env.NODE_ENV !== 'production') {
-    app.use(
-        cors({
-            origin: ['http://localhost:3000'],
-            credentials: true,
-        })
-    );
-}
-
 db.once('open', ()=>{
     console.log('Connected to the database')
 })
 db.on('err', err => {console.log(`Error:  ${err}`)})
-// Start server
-const server = app.listen(process.env.PORT || 8000, () => {
-    console.log('Server is running on port: 8000');
-});
 
 // security
 app.use((req, res, next) => {
@@ -54,7 +54,7 @@ app.use((req, res, next) => {
     req.params = sanitize(req.params);
     next();
 })
-app.use(helmet());
+app.use(helmet({crossOriginResourcePolicy: false}));
 
 // use routes
 app.use('/api', require('./routes/announcements.routes'));
@@ -75,6 +75,9 @@ app.get('/', (req, res) => {
 app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
 })
-
+// Start server
+const server = app.listen(process.env.PORT || 8000, () => {
+    console.log('Server is running on port: 8000');
+});
 // export
 module.exports = app;

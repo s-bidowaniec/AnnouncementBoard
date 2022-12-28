@@ -2,7 +2,7 @@ const authMiddleware = (req, res, next) => {
     if(req.session.login) {
         next();
     } else {
-        res.send({message: "not logged"})
+        res.status(409).send({message: "not logged"})
     }
 }
 

@@ -14,10 +14,17 @@ export const logIn = (payload) => ({
 });
 //thunk actions
 export const fetchUser = () => {
+  const options = {
+    method: 'GET',
+    credentials: 'include'
+  };
   return (dispatch) => {
-    fetch(`${API_URL}/auth/user`)
+    fetch(`${API_URL}/auth/user`, options)
       .then((res) => res.json())
-      .then((user) => dispatch(logIn(user)));
+      .then((res) => {
+        if (res.status === '200') dispatch(logIn(res));
+        else console.log('Not Logged');
+      });
   };
 };
 export const logOut = () => ({ type: LOG_OUT });
