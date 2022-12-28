@@ -17,7 +17,6 @@
     "redux-thunk": "^2.4.2",
     "sass": "^1.57.0",
     "web-vitals": "^2.1.0",
-    /* dev */
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
