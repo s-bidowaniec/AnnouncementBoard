@@ -6,7 +6,6 @@ const sanitize = require('mongo-sanitize');
 const helmet = require('helmet');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-//require('dotenv').config();
 
 // Connect DB
 const NODE_ENV = process.env.NODE_ENV;
@@ -21,10 +20,7 @@ mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 const app = express();
-/*app.use((req, res, next) => {
-   res.header('Access-Control-Allow-Origin', '*');
-   next();
- });*/
+
 app.use(
   cors({
       origin: ['http://localhost:3000', 'http://localhost:8000'],
