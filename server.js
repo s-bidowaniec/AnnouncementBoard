@@ -23,7 +23,7 @@ const app = express();
 
 app.use(
   cors({
-      origin: ['http://localhost:3000', 'http://localhost:8000'],
+      origin: ['http://localhost:3000', 'http://localhost:8000', 'https://announcementboard.s-bidowaniec.repl.co'],
       credentials: true,
   })
 );
