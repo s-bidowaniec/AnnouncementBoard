@@ -17,7 +17,7 @@ const AdEdit = () => {
   const [price, setPrice] = useState(ad.price);
   const [location, setLocation] = useState(ad.location);
   const [seller] = useState(user.login);
-  const [status, setStatus] = useState(ad.status); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
+  const [status, setStatus] = useState(); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(

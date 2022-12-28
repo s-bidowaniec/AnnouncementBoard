@@ -95,13 +95,15 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         const announcement = await Announcement.findById(req.params.id);
+        console.log(`/public/uploads/${announcement.photo}`);
         if(announcement){
-            fs.unlinkSync(announcement.photo);
+            fs.unlinkSync(`public/uploads/${announcement.photo}`);
             await announcement.remove();
             res.json(announcement);
         }
         else res.status(404).json({message: 'Not found...'})
     } catch(err) {
+        console.log(err);
         res.status(500).json({ message: err });
     }
 }

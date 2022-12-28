@@ -13,7 +13,7 @@ const AdAdd = () => {
   const [price, setPrice] = useState('');
   const [location, setLocation] = useState('');
   const [seller] = useState(user.login);
-  const [status, setStatus] = useState(''); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
+  const [status, setStatus] = useState(); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addAdRequest({ title, content, date, photo, price, location, seller }, setStatus));
