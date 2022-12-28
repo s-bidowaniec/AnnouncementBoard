@@ -15,7 +15,6 @@ export const editAd = (payload) => ({ type: EDIT_AD, payload });
 export const deleteAd = (payload) => ({ type: DELETE_AD, payload });
 // thunk actions
 export const fetchAds = () => {
-  console.log(API_URL);
   return (dispatch) => {
     fetch(`${API_URL}/api/ads`)
       .then((res) => res.json())

@@ -30,7 +30,7 @@ const AdEdit = () => {
       {status === 'success' && (
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>
-          <p>You have been successfully registered! You can now log in... </p>
+          <p>Your ad was successfully changed!</p>
         </Alert>
       )}
       {status === 'serverError' && (

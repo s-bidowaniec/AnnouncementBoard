@@ -21,7 +21,7 @@ const Home = () => {
       <Row>
         {currentAds.length > 0 &&
           currentAds.map((ad) => {
-            return <AdSimpleCard key={ad.id} ad={ad} />;
+            return <AdSimpleCard key={ad._id} ad={ad} />;
           })}
       </Row>
     </Container>

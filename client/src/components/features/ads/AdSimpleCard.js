@@ -6,7 +6,7 @@ const AdSimpleCard = (props) => {
   const { title, content, photo, _id } = props.ad;
   return (
     <Col xs={12} md={6} lg={4}>
-      <Card>
+      <Card className="mt-2">
         <Card.Img variant="top" src={IMGS_URL + photo} />
         <Card.Body>
           <Card.Title>{title}</Card.Title>

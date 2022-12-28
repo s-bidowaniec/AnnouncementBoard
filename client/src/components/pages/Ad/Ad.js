@@ -19,7 +19,7 @@ const Ad = () => {
     <Row>
       <Col xs="6" lg="6">
         <Card>
-          <Card.Header>Featured</Card.Header>
+          <Card.Header>Selected ad:</Card.Header>
           <Card.Img variant="top" src={IMGS_URL + currentAd.photo} alt="photo" />
           <Card.Body>
             <Card.Title>{currentAd.title}</Card.Title>

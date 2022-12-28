@@ -36,6 +36,11 @@ const NavBar = () => {
                 New Ad
               </Nav.Link>
             )}
+            {user && (
+              <Nav.Link as={NavLink} to="/logout">
+                Log Out
+              </Nav.Link>
+            )}
           </Nav>
           <Form className="d-flex">
             <Form.Control

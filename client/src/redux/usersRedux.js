@@ -1,6 +1,5 @@
-// selectors
 import { API_URL } from '../config';
-
+// selectors
 export const getUser = ({ user }) => user;
 // actions
 const createActionName = (actionName) => `app/users/${actionName}`;
@@ -25,6 +24,29 @@ export const fetchUser = () => {
         if (res.status === '200') dispatch(logIn(res));
         else console.log('Not Logged');
       });
+  };
+};
+export const logOutRequest = (setStatus) => {
+  return (dispatch) => {
+    const options = {
+      method: 'GET',
+      credentials: 'include'
+    };
+    setStatus('loading');
+    fetch(`${API_URL}/auth/logout`, options)
+      .then((res) => {
+        if (res.status === 200) {
+          setStatus('success');
+          dispatch(logOut());
+        } else if (res.status === 400) {
+          setStatus('clientError');
+        } else if (res.status === 409) {
+          setStatus('loginError');
+        } else {
+          setStatus('serverError');
+        }
+      })
+      .catch(() => setStatus('serverError'));
   };
 };
 export const logOut = () => ({ type: LOG_OUT });

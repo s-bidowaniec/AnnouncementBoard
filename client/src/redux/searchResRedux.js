@@ -8,7 +8,6 @@ const UPDATE_SEARCH_RES = createActionName('UPDATE_SEARCH_RES');
 export const updateSearchRes = (payload) => ({ type: UPDATE_SEARCH_RES, payload });
 // thunk actions
 export const fetchSearchAds = (search) => {
-  console.log(API_URL);
   return (dispatch) => {
     fetch(`${API_URL}/api/ads/search/${search}`)
       .then((res) => res.json())
