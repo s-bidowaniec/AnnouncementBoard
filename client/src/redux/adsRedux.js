@@ -16,14 +16,6 @@ export const fetchAds = () => {
       .then((ads) => dispatch(updateAds([...ads])));
   };
 };
-export const fetchSearchAds = (search) => {
-  console.log(API_URL);
-  return (dispatch) => {
-    fetch(`${API_URL}/api/ads/search/${search}`)
-      .then((res) => res.json())
-      .then((ads) => dispatch(updateAds([...ads])));
-  };
-};
 //reducer
 const adsReducer = (statePart = null, action) => {
   switch (action.type) {

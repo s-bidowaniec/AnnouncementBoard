@@ -52,9 +52,6 @@ const NavBar = () => {
             <Button variant="outline-success" as={NavLink} to={'/search/' + searchPhrase}>
               Search
             </Button>
-            <Button variant="outline-success" onClick={checkLogged}>
-              Logged
-            </Button>
           </Form>
         </Navbar.Collapse>
       </Container>

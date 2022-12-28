@@ -15,10 +15,12 @@ import Register from './components/pages/Register/Register';
 import Logout from './components/pages/Logout/Logout';
 import NotFound from './components/pages/NotFound/NotFound';
 import { fetchUser } from './redux/usersRedux';
+import { fetchAds } from './redux/adsRedux';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUser), [dispatch]);
+  useEffect(() => dispatch(fetchAds()), [dispatch]);
   return (
     <main>
       <Container>

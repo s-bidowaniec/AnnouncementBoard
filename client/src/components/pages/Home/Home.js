@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAds, getAllAds } from '../../../redux/adsRedux';
+import { useSelector } from 'react-redux';
+import { getAllAds } from '../../../redux/adsRedux';
 import { Container, Spinner, Row } from 'react-bootstrap';
 import AdSimpleCard from '../../features/ads/AdSimpleCard';
 const Home = () => {
-  const dispatch = useDispatch();
   const ads = useSelector((state) => getAllAds(state));
   const [currentAds, setCurrentAds] = useState(ads);
-  useEffect(() => dispatch(fetchAds()), [dispatch]);
   useEffect(() => {
     setCurrentAds(ads);
   }, [ads]);

@@ -1,19 +1,20 @@
 import { Container, Row, Spinner } from 'react-bootstrap';
 import AdSimpleCard from '../../features/ads/AdSimpleCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSearchAds, getAllAds } from '../../../redux/adsRedux';
+import { fetchSearchAds } from '../../../redux/searchResRedux';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getSearchedAds } from '../../../redux/searchResRedux';
 
 const Search = () => {
   const dispatch = useDispatch();
   const { searchPhrase } = useParams();
-  const ads = useSelector((state) => getAllAds(state));
-  const [currentAds, setCurrentAds] = useState(ads);
+  const searchResults = useSelector((state) => getSearchedAds(state));
+  const [currentAds, setCurrentAds] = useState(searchResults);
   useEffect(() => dispatch(fetchSearchAds(searchPhrase)), [dispatch]);
   useEffect(() => {
-    setCurrentAds(ads);
-  }, [ads]);
+    setCurrentAds(searchResults);
+  }, [searchResults]);
   return (
     <Container>
       <h2>Matching Ads</h2>

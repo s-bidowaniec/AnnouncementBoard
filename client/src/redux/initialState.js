@@ -1,3 +1,3 @@
-const initialState = { ads: [], user: null };
+const initialState = { ads: [], user: null, searchRes: [] };
 
 export default initialState;
