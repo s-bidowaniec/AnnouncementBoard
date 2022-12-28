@@ -11,9 +11,6 @@ import { getUser } from '../../../redux/usersRedux';
 const NavBar = () => {
   const user = useSelector((state) => getUser(state));
   const [searchPhrase, setSearchPhrase] = useState('');
-  const checkLogged = () => {
-    console.log(user);
-  };
   return (
     <Navbar bg="light" expand="lg">
       <Container>

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../../redux/usersRedux';
-import { API_URL } from '../../../config';
 import { Alert, Button, Form, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { getAdById } from '../../../redux/adsRedux';
+import { editAdRequest, getAdById } from '../../../redux/adsRedux';
 
 const AdEdit = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const user = useSelector((state) => getUser(state));
   const ad = useSelector((state) => getAdById(state, id));
@@ -20,33 +20,9 @@ const AdEdit = () => {
   const [status, setStatus] = useState(ad.status); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fd = new FormData();
-    fd.append('title', title);
-    fd.append('content', content);
-    fd.append('date', date);
-    fd.append('photo', photo);
-    fd.append('price', price);
-    fd.append('location', location);
-    fd.append('seller', seller);
-    const options = {
-      method: 'PUT',
-      credentials: 'include',
-      body: fd
-    };
-    setStatus('loading');
-    fetch(`${API_URL}/api/ads/${id}`, options)
-      .then((res) => {
-        if (res.status === 200) {
-          setStatus('success');
-        } else if (res.status === 400) {
-          setStatus('clientError');
-        } else if (res.status === 409) {
-          setStatus('loginError');
-        } else {
-          setStatus('serverError');
-        }
-      })
-      .catch(() => setStatus('serverError'));
+    dispatch(
+      editAdRequest({ title, content, date, photo, price, location, seller, _id: id }, setStatus)
+    );
   };
   return (
     <Form className="col-12 col-sm-3 mx-auto" onSubmit={handleSubmit}>

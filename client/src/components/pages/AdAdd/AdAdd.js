@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Spinner } from 'react-bootstrap';
-import { API_URL } from '../../../config';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../../redux/usersRedux';
+import { addAdRequest } from '../../../redux/adsRedux';
 const AdAdd = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => getUser(state));
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -15,33 +16,7 @@ const AdAdd = () => {
   const [status, setStatus] = useState(''); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fd = new FormData();
-    fd.append('title', title);
-    fd.append('content', content);
-    fd.append('date', date);
-    fd.append('photo', photo);
-    fd.append('price', price);
-    fd.append('location', location);
-    fd.append('seller', seller);
-    const options = {
-      method: 'POST',
-      credentials: 'include',
-      body: fd
-    };
-    setStatus('loading');
-    fetch(`${API_URL}/api/ads`, options)
-      .then((res) => {
-        if (res.status === 200) {
-          setStatus('success');
-        } else if (res.status === 400) {
-          setStatus('clientError');
-        } else if (res.status === 409) {
-          setStatus('loginError');
-        } else {
-          setStatus('serverError');
-        }
-      })
-      .catch(() => setStatus('serverError'));
+    dispatch(addAdRequest({ title, content, date, photo, price, location, seller }, setStatus));
   };
   return (
     <Form className="col-12 col-sm-3 mx-auto" onSubmit={handleSubmit}>
@@ -49,7 +24,7 @@ const AdAdd = () => {
       {status === 'success' && (
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>
-          <p>You have been successfully registered! You can now log in... </p>
+          <p>Your ad was successfully added. </p>
         </Alert>
       )}
       {status === 'serverError' && (
