@@ -1,6 +1,7 @@
 const Announcement = require('../models/announcement.model')
 const getImageFileType = require("../utils/getImageFileType");
-const fs = require("fs");
+const fs = require('fs');
+const path = require('path')
 // GET
 exports.getAll = async (req, res) => {
     try {
@@ -43,7 +44,7 @@ exports.create = async (req, res) => {
             && location && typeof location === 'string'
             && seller && typeof seller === 'string'
             && ['image/png', 'image/gif', 'image/jpeg'].includes(fileType)){
-            const newAnnouncement = new Announcement({ title, content, date, photo: req.file.path, price, location, seller })
+            const newAnnouncement = new Announcement({ title, content, date, photo: path.basename(req.file.path), price, location, seller })
             await newAnnouncement.save()
             res.status(200).json({message: 'announcement created'})
         } else {
