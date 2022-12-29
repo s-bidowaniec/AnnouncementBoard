@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "yarn": "1.22.19"
+  },
   "scripts": {
     "test": "cross-env NODE_ENV=test secretSession=xyz567 mocha \"./{,!(node_modules|client)/**/}*.test.js\"",
     "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test",
