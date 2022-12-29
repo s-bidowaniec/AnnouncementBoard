@@ -9,7 +9,6 @@ const Register = () => {
   const [status, setStatus] = useState(null); // null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(login, password, phoneNumber, avatar);
     const fd = new FormData();
     fd.append('login', login);
     fd.append('password', password);
@@ -17,6 +16,7 @@ const Register = () => {
     fd.append('avatar', avatar);
     const options = {
       method: 'POST',
+      credentials: 'include',
       body: fd
     };
     setStatus('loading');
