@@ -68,7 +68,7 @@ exports.update = async (req, res) => {
         if(req.file){fs.unlinkSync(req.file.path)};
     }
     try {
-        const updatedAnnouncement = await Announcement.findById(req.body._id);
+        const updatedAnnouncement = await Announcement.findById(req.params.id);
         const oldPhoto = updatedAnnouncement.photo;
         if (updatedAnnouncement) {
             updatedAnnouncement.title = title ? title : updatedAnnouncement.title;
