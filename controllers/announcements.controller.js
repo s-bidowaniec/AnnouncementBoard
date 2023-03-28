@@ -60,11 +60,12 @@ exports.create = async (req, res) => {
 // UPDATE
 exports.update = async (req, res) => {
     const { title, content, date, price, location, seller } = req.body;
-    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+    const fileType = !(typeof req.file === undefined) ? await getImageFileType(req.file) : 'unknown';
     let validPhoto = false;
     if (['image/png', 'image/gif', 'image/jpeg'].includes(fileType)){
         validPhoto = true;
     } else {
+        console.log(req.file);
         if(req.file){fs.unlinkSync(req.file.path)};
     }
     try {
@@ -74,20 +75,21 @@ exports.update = async (req, res) => {
             updatedAnnouncement.title = title ? title : updatedAnnouncement.title;
             updatedAnnouncement.content = content ? content : updatedAnnouncement.content;
             updatedAnnouncement.date = date ? date : updatedAnnouncement.date;
-            updatedAnnouncement.photo = validPhoto ? req.file.path : updatedAnnouncement.photo;
+            updatedAnnouncement.photo = validPhoto ? path.basename(req.file.path) : updatedAnnouncement.photo;
             updatedAnnouncement.price = price ? price : updatedAnnouncement.price;
             updatedAnnouncement.location = location ? location : updatedAnnouncement.location;
             updatedAnnouncement.seller = seller ? seller : updatedAnnouncement.seller;
             await updatedAnnouncement.save();
-            if(validPhoto){fs.unlinkSync(oldPhoto)};
-            res.status(200).json({message:'Success announcement updated', photo: path.basename(req.file.path)});
+            if(validPhoto){fs.unlinkSync(`public/uploads/${oldPhoto}`)};
+            res.status(200).json({message:'Success announcement updated', photo: updatedAnnouncement.photo});
         } else {
-            if(req.file){fs.unlinkSync(req.file.path)};
+            if(!(typeof req.file === undefined)){fs.unlinkSync(req.file.path)};
             res.status(404).json({message: 'Not found...'})
         }
     }
     catch(err) {
         if(req.file){fs.unlinkSync(req.file.path)};
+        console.log(err)
         res.status(500).json({ message: err });
     }
 }
@@ -95,7 +97,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         const announcement = await Announcement.findById(req.params.id);
-        console.log(`/public/uploads/${announcement.photo}`);
+        console.log(`${announcement.photo}`);
         if(announcement){
             fs.unlinkSync(`public/uploads/${announcement.photo}`);
             await announcement.remove();

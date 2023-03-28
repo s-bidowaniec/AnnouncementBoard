@@ -12,9 +12,9 @@ const NODE_ENV = process.env.NODE_ENV;
 console.log(NODE_ENV);
 let dbUri = '';
 
-if(NODE_ENV === 'production') dbUri = `mongodb+srv://${process.env.dbname}:${process.env.dbpass}@cluster0.f63nfzn.mongodb.net/?retryWrites=true&w=majority`;
-else if(NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/AnnouncementBoardDBtest';
-else dbUri = 'mongodb://localhost:27017/AnnouncementBoardDB';
+if(NODE_ENV === 'production') {dbUri = `mongodb+srv://${process.env.dbname}:${process.env.dbpass}@cluster0.f63nfzn.mongodb.net/?retryWrites=true&w=majority`}
+else if(NODE_ENV === 'test') {dbUri = 'mongodb://localhost:27017/AnnouncementBoardDBtest'}
+else {dbUri = 'mongodb://localhost:27017/AnnouncementBoardDB'}
 
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
@@ -73,7 +73,7 @@ app.use((req, res) => {
 })
 // Start server
 const server = app.listen(process.env.PORT || 8000, () => {
-    console.log('Server is running on port: 8000');
+    console.log(`Server is running on port: ${process.env.PORT || 8000}`);
 });
 // export
 module.exports = app;
