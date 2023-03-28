@@ -51,6 +51,7 @@ export const addAdRequest = (ad, setStatus) => {
         } else if (res.status === 409) {
           setStatus('loginError');
         } else {
+          res.json().then((data) => console.log(data.message));
           setStatus('serverError');
         }
       })
