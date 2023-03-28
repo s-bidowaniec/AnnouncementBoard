@@ -9,6 +9,7 @@ const Ad = () => {
   const { id } = useParams();
   const user = useSelector((state) => getUser(state));
   const ad = useSelector((state) => getAdById(state, id));
+  console.log(ad);
   const [currentAd, setCurrentAd] = useState(ad);
   const owner = user && user.login === ad.seller;
   console.log(owner);

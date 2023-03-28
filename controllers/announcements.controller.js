@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
             && ['image/png', 'image/gif', 'image/jpeg'].includes(fileType)){
             const newAnnouncement = new Announcement({ title, content, date, photo: path.basename(req.file.path), price, location, seller })
             await newAnnouncement.save()
-            res.status(200).json({message: 'announcement created'})
+            res.status(200).json({message: 'announcement created', photo: path.basename(req.file.path), id: newAnnouncement.id})
         } else {
             if(req.file){fs.unlinkSync(req.file.path)};
             res.status(400).send({message: "Bad request"})
@@ -80,7 +80,7 @@ exports.update = async (req, res) => {
             updatedAnnouncement.seller = seller ? seller : updatedAnnouncement.seller;
             await updatedAnnouncement.save();
             if(validPhoto){fs.unlinkSync(oldPhoto)};
-            res.status(200).json({message:'Success announcement updated'});
+            res.status(200).json({message:'Success announcement updated', photo: path.basename(req.file.path)});
         } else {
             if(req.file){fs.unlinkSync(req.file.path)};
             res.status(404).json({message: 'Not found...'})

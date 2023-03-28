@@ -4,3 +4,4 @@ client/build
 /nodemon.json
 /.env
 /.vscode/
+/public/uploads/

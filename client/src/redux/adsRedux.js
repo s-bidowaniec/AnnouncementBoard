@@ -41,7 +41,11 @@ export const addAdRequest = (ad, setStatus) => {
       .then((res) => {
         if (res.status === 200) {
           setStatus('success');
-          dispatch(addAd(ad));
+          res
+            .json()
+            .then((data) =>
+              dispatch(addAd({ ...ad, photo: data.photo, _id: data.id, date: ad.date.toString() }))
+            );
         } else if (res.status === 400) {
           setStatus('clientError');
         } else if (res.status === 409) {
@@ -73,7 +77,11 @@ export const editAdRequest = (ad, setStatus) => {
       .then((res) => {
         if (res.status === 200) {
           setStatus('success');
-          dispatch(editAd(ad));
+          res
+            .json()
+            .then((data) =>
+              dispatch(addAd({ ...ad, photo: data.photo, date: ad.date.toString() }))
+            );
         } else if (res.status === 400) {
           setStatus('clientError');
         } else if (res.status === 409) {
@@ -114,6 +122,7 @@ const adsReducer = (statePart = null, action) => {
     case UPDATE_ADS:
       return [...action.payload];
     case ADD_AD:
+      console.log(action.payload.id);
       return [...statePart, action.payload];
     case EDIT_AD:
       return statePart.map((ad) => {

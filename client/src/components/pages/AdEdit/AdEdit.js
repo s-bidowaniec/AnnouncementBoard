@@ -10,13 +10,13 @@ const AdEdit = () => {
   const ad = useSelector((state) => getAdById(state, id));
   const [title] = useState(ad.title);
   const [content] = useState(ad.content);
-  const [date] = useState(ad.date);
+  const [date] = useState(Date.parse(ad.date));
   const [photo] = useState(ad.photo);
   const [price] = useState(ad.price);
   const [location] = useState(ad.location);
 
   const editCurrentAd = (currentAd, setStatus) => {
-    dispatch(editAdRequest({ ...currentAd, id }, setStatus));
+    dispatch(editAdRequest({ ...currentAd, _id: ad._id }, setStatus));
   };
   return (
     <AdForm

@@ -37,7 +37,18 @@ const AdForm = (props) => {
 
   // Submit Form
   const handleSubmit = () => {
-    props.action({ title, content, date, photo, price, location, seller }, setStatus);
+    props.action(
+      {
+        title,
+        content: content.replace(/(<([^>]+)>)/gi, ''),
+        date,
+        photo,
+        price,
+        location,
+        seller
+      },
+      setStatus
+    );
     //dispatch(addAdRequest({ title, content, date, photo, price, location, seller }, setStatus));
   };
 
