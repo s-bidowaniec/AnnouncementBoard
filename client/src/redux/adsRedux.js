@@ -81,7 +81,7 @@ export const editAdRequest = (ad, setStatus) => {
           res
             .json()
             .then((data) =>
-              dispatch(addAd({ ...ad, photo: data.photo, date: ad.date.toString() }))
+              dispatch(editAd({ ...ad, photo: data.photo, date: ad.date.toString() }))
             );
         } else if (res.status === 400) {
           setStatus('clientError');
